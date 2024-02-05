@@ -10,7 +10,6 @@ import java.security.Signature;
 import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 
 public class Gerencia {
 	private ArrayList<Perfil> perfis;
@@ -23,6 +22,7 @@ public class Gerencia {
 	
 	public void adicionaUsuario(String login, String password, Tipo tipo) {
 		Perfil novoPerfil = new Perfil(login,password,tipo);
+		perfis.add(novoPerfil);
 		System.out.println("Perfil criado com sucesso");
 		
 	}
@@ -37,19 +37,22 @@ public class Gerencia {
 	}
 
 	private boolean verificarSenha(String password, String senhaCriptada) {
-		String descriptarSenha = new String(Base64.getDecoder().decode(senhaCriptada));
-		return password.equals(descriptarSenha);
+		return senhaCriptada.equals(CriptarSenha(password));
 		
 	}
 	
-	private byte[] entrarDados(String data, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+	private String CriptarSenha(String password) {
+		return Base64.getEncoder().encodeToString(password.getBytes());
+	}
+
+	public byte[] entrarDados(String data, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
 		Signature signature = Signature.getInstance("SHA256withRSA");
 		signature.initSign(privateKey);
 		signature.update(data.getBytes());
 		return signature.sign();
 	}
 	
-	private boolean verificarAssinatura(String data, byte[] signature, PublicKey publicKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+	public boolean verificarAssinatura(String data, byte[] signature, PublicKey publicKey) throws InvalidKeyException, NoSuchAlgorithmException, SignatureException {
 		Signature verificaAssinatura = Signature.getInstance("SHA256withRSA");
 		verificaAssinatura.initVerify(publicKey);
 		verificaAssinatura.update(data.getBytes());

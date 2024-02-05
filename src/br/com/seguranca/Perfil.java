@@ -1,6 +1,9 @@
 package br.com.seguranca;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+
+
 
 public class Perfil {
 	private String login;
@@ -14,7 +17,7 @@ public class Perfil {
 		this.tipo = tipo;
 	}
 
-	private String CriptarSenha(String senha) {
+	public String CriptarSenha(String senha) {
 		return Base64.getEncoder().encodeToString(senha.getBytes());
 	}
 
