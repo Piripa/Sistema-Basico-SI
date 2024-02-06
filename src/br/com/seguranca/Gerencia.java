@@ -15,6 +15,18 @@ public class Gerencia {
 	private ArrayList<Perfil> perfis;
 	private KeyPair keyPair;
 	
+	public void getArrayPerfil(){
+		for(Perfil perfil : perfis) {
+			System.out.println(perfil.getLogin().toString());
+		}
+		
+	}
+	
+	
+	public KeyPair getKeyPair() {
+		return keyPair;
+	}
+
 	public Gerencia() {
 		this.perfis = new ArrayList<>();
 		this.keyPair = generateKeyPair();
@@ -26,7 +38,7 @@ public class Gerencia {
 		System.out.println("Perfil criado com sucesso");
 		
 	}
-	
+
 	public Perfil autenticarPerfil(String login, String password) {
 		for(Perfil perfil : perfis) {
 			if(perfil.getLogin().equals(login) && verificarSenha(password, perfil.getSenhaCriptada())) {
@@ -38,7 +50,6 @@ public class Gerencia {
 
 	private boolean verificarSenha(String password, String senhaCriptada) {
 		return senhaCriptada.equals(CriptarSenha(password));
-		
 	}
 	
 	private String CriptarSenha(String password) {
@@ -47,6 +58,7 @@ public class Gerencia {
 
 	public byte[] entrarDados(String data, PrivateKey privateKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
 		Signature signature = Signature.getInstance("SHA256withRSA");
+		//System.out.println(privateKey);
 		signature.initSign(privateKey);
 		signature.update(data.getBytes());
 		return signature.sign();
@@ -54,6 +66,7 @@ public class Gerencia {
 	
 	public boolean verificarAssinatura(String data, byte[] signature, PublicKey publicKey) throws InvalidKeyException, NoSuchAlgorithmException, SignatureException {
 		Signature verificaAssinatura = Signature.getInstance("SHA256withRSA");
+		System.out.println(publicKey);
 		verificaAssinatura.initVerify(publicKey);
 		verificaAssinatura.update(data.getBytes());
 		return verificaAssinatura.verify(signature);

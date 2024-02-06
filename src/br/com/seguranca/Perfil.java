@@ -1,9 +1,6 @@
 package br.com.seguranca;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-
-
 
 public class Perfil {
 	private String login;
@@ -11,10 +8,12 @@ public class Perfil {
 	private String senhaCriptada;
 	private Tipo tipo;
 	
+	
 	public Perfil(String login, String senha, Tipo tipo) {
 		this.login = login;
 		this.senhaCriptada = CriptarSenha(senha);
 		this.tipo = tipo;
+		
 	}
 
 	public String CriptarSenha(String senha) {
