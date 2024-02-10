@@ -30,8 +30,12 @@ public class Main {
 					
 					byte[] signature = gerenciar.entrarDados(dadosToSing, gerenciar.getKeyPair().getPrivate());
 					if(gerenciar.verificarAssinatura(dadosToSing, signature, gerenciar.getKeyPair().getPublic())) {
-						System.out.println("Assinatura válida. Você deseja 1 - cadastrar novos usuários ou 2 - listar os usuários? ");
-						int respostaInput = scanner.nextInt();
+						System.out.println("Assinatura válida.");
+						int respostaInput;
+						do {
+						System.out.println("Você deseja 1 - cadastrar novos usuários ou 2 - listar os usuários? ");
+						respostaInput = scanner.nextInt();
+						
 						switch (respostaInput) {
 						case 1:
 							System.out.println("Digite o nome do usuário ");
@@ -48,6 +52,8 @@ public class Main {
 						default:
 							System.out.println("Obrigado por usar nossos serviços");
 						}
+						
+						}while(respostaInput == 1);
 						
 						
 					}
